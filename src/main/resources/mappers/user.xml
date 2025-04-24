@@ -7,4 +7,10 @@
     <select id="getUserByUsername" resultType="org.nuist.myblog.entity.User">
         select * from user where username = #{username}
     </select>
+    <select id="loginId" resultType="org.nuist.myblog.entity.User">
+        select * from user where user_id = #{user.user_id} and password = #{user.password}
+    </select>
+    <select id="getUserByUserNumber" resultType="org.nuist.myblog.entity.User">
+        select * from user where user_number = #{user_number}
+    </select>
 </mapper>

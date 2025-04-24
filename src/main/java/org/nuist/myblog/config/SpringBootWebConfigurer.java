@@ -15,6 +15,8 @@ public class SpringBootWebConfigurer implements WebMvcConfigurer {
         logger.info("Adding resource handler for /avatar/** to file:D:\\MyBlogPath\\avatar\\");
         logger.info("Adding resource handler for /md/** to file:D:\\MyBlogPath\\md\\");
         registry.addResourceHandler("/avatar/**").addResourceLocations("file:D:\\MyBlogPath\\avatar\\");
+        registry.addResourceHandler("/cover/**").addResourceLocations("file:D:\\MyBlogPath\\cover\\");
+        registry.addResourceHandler("/blog/**").addResourceLocations("file:D:\\MyBlogPath\\blog\\");
         registry.addResourceHandler("/md/**").addResourceLocations("file:D:\\MyBlogPath\\md\\");
     }
 }
