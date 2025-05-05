@@ -41,4 +41,16 @@ public class BlogService {
         log.info("getBlogById:{}", blog);
         return blog;
     }
+
+    public List<Blog> getBlogsSearched(String query) {
+        List<Blog> blogs = blogMapper.getBlogsSearched(query);
+        log.info("getBlogsSearched:{}", blogs);
+        for (Blog blog : blogs){
+            log.info("blog:{}", blog);
+            User user = userMapper.getUserByUserNumber(blog.getUser_number());
+            blog.setUsername(user.getUsername());
+            blog.setUser_avatar(user.getAvatar());
+        }
+        return blogs;
+    }
 }

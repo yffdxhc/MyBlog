@@ -69,5 +69,18 @@ public class BlogController {
         return result;
     }
 
-
+    @GetMapping("/getBlogsSearched")
+    public Result<List<Blog>> getBlogsSearched(@RequestParam("query") String query){
+        Result<List<Blog>> result = new Result<>();
+        try {
+            List<Blog> blogs = blogService.getBlogsSearched(query);
+            result.setData(blogs);
+            result.setSuccess(true);
+            result.setMessage("获取搜索结果成功");
+        } catch (Exception e) {
+            result.setSuccess(false);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
 }

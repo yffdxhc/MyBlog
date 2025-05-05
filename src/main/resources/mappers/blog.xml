@@ -10,4 +10,7 @@
     <select id="getBlogById" resultType="org.nuist.myblog.entity.Blog">
         select * from blog where blog_id = #{blog_id}
     </select>
+    <select id="getBlogsSearched" resultType="org.nuist.myblog.entity.Blog">
+        select * from blog where blog_title like concat('%',#{query},'%')
+    </select>
 </mapper>

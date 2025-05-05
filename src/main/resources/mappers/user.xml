@@ -13,4 +13,7 @@
     <select id="getUserByUserNumber" resultType="org.nuist.myblog.entity.User">
         select * from user where user_number = #{user_number}
     </select>
+    <select id="getUserByQuery" resultType="org.nuist.myblog.entity.User">
+        select * from user where username like concat('%',#{query},'%')
+    </select>
 </mapper>

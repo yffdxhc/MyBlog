@@ -15,6 +15,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
     private static final Logger log = LoggerFactory.getLogger(UserService.class);
@@ -94,5 +96,12 @@ public class UserService {
         User loginUser = userMapper.loginId(user);
         log.info("查询用户消息，user_id:{}", loginUser.getUser_id());
         return loginUser;
+    }
+
+    public List<User> getUserByQuery(String query) {
+        log.info("进行服务：查询用户，query:{}", query);
+        List<User> users = userMapper.getUserByQuery(query);
+        log.info("查询用户消息，query:{}", users);
+        return users;
     }
 }

@@ -9,13 +9,11 @@ import org.nuist.myblog.util.JWTUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -90,5 +88,12 @@ public class UserController {
         map.put("state", true);
         map.put("msg", "请求成功");
         return map;
+    }
+
+    @GetMapping("/getUserSearched")
+    public Result<List<User>> getUserSearched(@RequestParam("query") String query) {
+        log.info("收到请求：查询用户信息，query:{}", query);
+        Result<List<User>> result = new Result<>(true, "查询成功", userService.getUserByQuery(query));
+        return result;
     }
 }
