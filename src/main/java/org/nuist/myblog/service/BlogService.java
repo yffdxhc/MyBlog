@@ -53,4 +53,9 @@ public class BlogService {
         }
         return blogs;
     }
+    public Boolean insertBlog(Blog blog) {
+        Integer result = blogMapper.insertBlog(blog);
+        log.info("insertBlog:{}", result);
+        return result > 0;
+    }
 }

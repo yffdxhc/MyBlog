@@ -49,19 +49,6 @@ public class UserController {
     }
 
     /**
-     * 根据用户名查询用户信息
-     *
-     * @param username
-     * @return
-     */
-    @GetMapping("/getUserByUsername")
-    public Result<User> getUserByUsername(String username) {
-        log.info("收到请求：查询用户信息，username:{}", username);
-        Result<User> result = new Result<>(true, "查询成功", userService.getUserByUsername(username));
-        return result;
-    }
-
-    /**
      * 邮箱测试
      *
      * @param tos
@@ -76,18 +63,20 @@ public class UserController {
     }
 
     @PostMapping("/test")
-    public Map<String, Object> test(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
+    public Result<String> test(HttpServletRequest request) {
+        Result<String> result = new Result<>();
+        // Map<String, Object> map = new HashMap<>();
         // 验证令牌  交给拦截器去做
         // 只需要在这里处理自己的业务逻辑
         String token = request.getHeader("token");
         DecodedJWT verify = JWTUtils.verify(token);
-        log.info("用户id：[{}]",verify.getClaim("id").asString());
-        log.info("用户名字：[{}]",verify.getClaim("name").asString());
         log.info("用户编号：[{}]",verify.getClaim("user_number").asString());
-        map.put("state", true);
-        map.put("msg", "请求成功");
-        return map;
+        result.setData(verify.getClaim("user_number").asString());
+        result.setSuccess(true);
+        result.setMessage("token正常");
+        // map.put("state", true);
+        // map.put("msg", "请求成功");
+        return result;
     }
 
     @GetMapping("/getUserSearched")

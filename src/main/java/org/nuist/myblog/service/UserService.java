@@ -3,7 +3,6 @@ package org.nuist.myblog.service;
 import org.nuist.myblog.entity.Result;
 import org.nuist.myblog.entity.ToEmail;
 import org.nuist.myblog.entity.User;
-import org.nuist.myblog.util.KafkaProducer;
 import org.nuist.myblog.mapper.UserMapper;
 import org.nuist.myblog.util.RedisUtil;
 import org.slf4j.Logger;
@@ -28,39 +27,9 @@ public class UserService {
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    private KafkaProducer kafkaProducer;
-    @Autowired
     private JavaMailSender mailSender;
 
     private static final String USER_CACHE_KEY = "user:%s";
-
-    /**
-     * 根据用户名查询用户信息
-     * @param username
-     * @return
-     */
-    public User getUserByUsername(String username) {
-        // 构建缓存键
-        String cacheKey = String.format(USER_CACHE_KEY, username);
-
-        // 从Redis中获取用户信息
-        User user = (User) redisUtil.get(cacheKey);
-        if (user != null) {
-            return user;
-        }
-
-        // 如果缓存中没有，从数据库中查询
-        user = userMapper.getUserByUsername(username);
-        if (user != null) {
-            // 发送消息到 Kafka
-            try {
-                kafkaProducer.sendUser(user);
-            }catch (Exception e){
-                log.error("发送消息到Kafka失败", e);
-            }
-        }
-        return user;
-    }
 
     /**
      * 邮箱测试
@@ -103,5 +72,12 @@ public class UserService {
         List<User> users = userMapper.getUserByQuery(query);
         log.info("查询用户消息，query:{}", users);
         return users;
+    }
+
+    public User getUserByUserNumber(String user_number) {
+        log.info("进行服务：查询用户，user_number:{}", user_number);
+        User user = userMapper.getUserByUserNumber(user_number);
+        log.info("查询用户消息，user_number:{}", user);
+        return user;
     }
 }

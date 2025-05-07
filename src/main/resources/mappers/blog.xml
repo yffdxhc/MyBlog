@@ -3,6 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.nuist.myblog.mapper.BlogMapper">
+    <insert id="insertBlog">
+        insert into blog(blog_id,blog_title,blog_content,blog_summary,user_number,type_id,blog_status,create_time,update_time,cover_image)
+        values(#{blog.blog_id},#{blog.blog_title},#{blog.blog_content},#{blog.blog_summary},#{blog.user_number},#{blog.type_id},#{blog.blog_status},#{blog.create_time},#{blog.update_time},#{blog.cover_image})
+    </insert>
 
     <select id="getBlogs" resultType="org.nuist.myblog.entity.Blog">
         select * from blog
