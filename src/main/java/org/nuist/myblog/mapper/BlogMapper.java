@@ -12,4 +12,5 @@ public interface BlogMapper {
     Blog getBlogById(String blog_id);
     List<Blog> getBlogsSearched(@Param("query") String query);
     Integer insertBlog(@Param("blog") Blog blog);
+    List<Blog> getBlogsByUserNumber(@Param("user_number") String user_number);
 }

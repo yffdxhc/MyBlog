@@ -58,4 +58,14 @@ public class BlogService {
         log.info("insertBlog:{}", result);
         return result > 0;
     }
+
+    public List<Blog> getHotBlogs(){
+        List<Blog> blogs = blogMapper.getBlogs();
+        for (Blog blog : blogs){
+            User user = userMapper.getUserByUserNumber(blog.getUser_number());
+            blog.setUsername(user.getUsername());
+            blog.setUser_avatar(user.getAvatar());
+        }
+        return blogs;
+    }
 }

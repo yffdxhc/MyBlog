@@ -1,6 +1,7 @@
 package org.nuist.myblog.controller;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import org.nuist.myblog.entity.Blog;
 import org.nuist.myblog.entity.Result;
 import org.nuist.myblog.entity.ToEmail;
 import org.nuist.myblog.entity.User;
@@ -85,4 +86,15 @@ public class UserController {
         Result<List<User>> result = new Result<>(true, "查询成功", userService.getUserByQuery(query));
         return result;
     }
+
+    @GetMapping("/getUserFollows")
+    public Result<List<User>> getUserFollows(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String user_number = verify.getClaim("user_number").asString();
+        log.info("用户：[{}]申请获取关注信息",user_number);
+        Result<List<User>> result = new Result<>(true, "查询关注成功", userService.getUserFollows(user_number));
+        return result;
+    }
+
 }

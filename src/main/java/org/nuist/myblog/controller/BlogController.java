@@ -172,6 +172,27 @@ public class BlogController {
         return result;
     }
 
+    @GetMapping("/getMyBlogs")
+    public Result<List<Blog>> getMyBlogs(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String user_number = verify.getClaim("user_number").asString();
+        log.info("用户：[{}]申请获取博客信息",user_number);
+        Result<List<Blog>> result = new Result<>(true, "查询博客成功", userService.getBlogsByUserNumber(user_number));
+        return result;
+    }
 
+    @GetMapping("/getBlogsByUserNumber")
+    public Result<List<Blog>> getBlogsByUserNumber(@RequestParam("user_number") String user_number) {
+        log.info("用户：[{}]申请获取博客信息",user_number);
+        Result<List<Blog>> result = new Result<>(true, "查询博客成功", userService.getBlogsByUserNumber(user_number));
+        return result;
+    }
 
+    @GetMapping("/getHotBlogs")
+    public Result<List<Blog>> getHotBlogs() {
+        log.info("获取热门博客");
+        Result<List<Blog>> result = new Result<>(true, "查询热门博客成功", blogService.getHotBlogs());
+        return result;
+    }
 }

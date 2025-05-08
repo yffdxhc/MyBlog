@@ -17,4 +17,7 @@
     <select id="getBlogsSearched" resultType="org.nuist.myblog.entity.Blog">
         select * from blog where blog_title like concat('%',#{query},'%')
     </select>
+    <select id="getBlogsByUserNumber" resultType="org.nuist.myblog.entity.Blog">
+        select * from blog where user_number = #{user_number} ORDER BY STR_TO_DATE(create_time, '%Y-%m-%d %H:%i:%s') DESC
+    </select>
 </mapper>

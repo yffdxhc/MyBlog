@@ -1,8 +1,11 @@
 package org.nuist.myblog.service;
 
+import org.nuist.myblog.entity.Blog;
 import org.nuist.myblog.entity.Result;
 import org.nuist.myblog.entity.ToEmail;
 import org.nuist.myblog.entity.User;
+import org.nuist.myblog.mapper.BlogMapper;
+import org.nuist.myblog.mapper.FollowMapper;
 import org.nuist.myblog.mapper.UserMapper;
 import org.nuist.myblog.util.RedisUtil;
 import org.slf4j.Logger;
@@ -14,6 +17,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,6 +28,10 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private FollowMapper followMapper;
+    @Autowired
+    private BlogMapper  blogMapper;
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
@@ -79,5 +87,31 @@ public class UserService {
         User user = userMapper.getUserByUserNumber(user_number);
         log.info("查询用户消息，user_number:{}", user);
         return user;
+    }
+
+    public List<User> getUserFollows(String user_number) {
+        log.info("进行服务：查询用户关注，user_number:{}", user_number);
+        List<User> follows = new ArrayList<>();
+        List<String> follows_number = followMapper.getUserFollows(user_number);
+        for (String follows_number_item : follows_number){
+            log.info("进行服务：查询用户关注，follows_number_item:{}", follows_number_item);
+            User user = userMapper.getUserByUserNumber(follows_number_item);
+            user.setPassword("************************");
+            log.info("查询用户消息，follows_number_item:{}", user);
+            follows.add(user);
+        }
+        return follows;
+    }
+
+    public List<Blog> getBlogsByUserNumber(String user_number) {
+        log.info("进行服务：查询用户博客，user_number:{}", user_number);
+        List<Blog> blogs = blogMapper.getBlogsByUserNumber(user_number);
+        for (Blog blog : blogs){
+            log.info("进行服务：查询用户博客，blog:{}", blog);
+            User user = userMapper.getUserByUserNumber(blog.getUser_number());
+            blog.setUsername(user.getUsername());
+            blog.setUser_avatar(user.getAvatar());
+        }
+        return blogs;
     }
 }
