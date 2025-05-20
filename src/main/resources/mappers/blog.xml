@@ -20,4 +20,17 @@
     <select id="getBlogsByUserNumber" resultType="org.nuist.myblog.entity.Blog">
         select * from blog where user_number = #{user_number} ORDER BY STR_TO_DATE(create_time, '%Y-%m-%d %H:%i:%s') DESC
     </select>
+    <select id="findBlogsByIds" resultType="org.nuist.myblog.entity.Blog">
+        SELECT * FROM blog
+        WHERE blog_id IN
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="findAllUserNumbers" resultType="java.lang.String">
+        SELECT DISTINCT user_number FROM blog
+    </select>
+    <select id="findAllBlogIds" resultType="java.lang.String">
+        SELECT DISTINCT blog_id FROM blog
+    </select>
 </mapper>

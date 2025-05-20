@@ -1,10 +1,11 @@
-package org.nuist.myblog.util;
+package org.nuist.myblog.config;
 
 import com.auth0.jwt.exceptions.AlgorithmMismatchException;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.nuist.myblog.entity.Result;
+import org.nuist.myblog.util.JWTUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;

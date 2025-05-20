@@ -13,4 +13,18 @@ public interface BlogMapper {
     List<Blog> getBlogsSearched(@Param("query") String query);
     Integer insertBlog(@Param("blog") Blog blog);
     List<Blog> getBlogsByUserNumber(@Param("user_number") String user_number);
+    /**
+     * 根据多个博客 ID 查询博客详情
+     */
+    List<Blog> findBlogsByIds(@Param("ids") List<String> ids);
+
+    /**
+     * 查询所有用户编号（用于构建 Mahout 映射）
+     */
+    List<String> findAllUserNumbers();
+
+    /**
+     * 查询所有博客 ID（用于构建 Mahout 映射）
+     */
+    List<String> findAllBlogIds();
 }

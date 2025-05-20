@@ -1,6 +1,5 @@
 package org.nuist.myblog.config;
 
-import org.nuist.myblog.util.JWTInterceptors;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
