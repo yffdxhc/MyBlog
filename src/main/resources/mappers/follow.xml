@@ -7,4 +7,7 @@
     <select id="getUserFollows" resultType="java.lang.String">
         select followed_number from follow where follow_number = #{user_number}
     </select>
+    <select id="getUserFollowers" resultType="java.lang.String">
+        select follow_number from follow where followed_number = #{user_number}
+    </select>
 </mapper>

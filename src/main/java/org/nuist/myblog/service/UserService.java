@@ -114,4 +114,18 @@ public class UserService {
         }
         return blogs;
     }
+
+    public List<User> getUserFollowers(String query) {
+        log.info("进行服务：查询用户粉丝，query:{}", query);
+        List<User> followers = new ArrayList<>();
+        List<String> followers_number = followMapper.getUserFollowers(query);
+        for (String followers_number_item : followers_number){
+            log.info("进行服务：查询用户粉丝，followers_number_item:{}", followers_number_item);
+            User user = userMapper.getUserByUserNumber(followers_number_item);
+            user.setPassword("************************");
+            log.info("查询用户消息，followers_number_item:{}", user);
+            followers.add(user);
+        }
+        return followers;
+    }
 }

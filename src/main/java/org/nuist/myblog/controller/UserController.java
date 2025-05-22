@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,39 @@ public class UserController {
         String user_number = verify.getClaim("user_number").asString();
         log.info("用户：[{}]申请获取关注信息",user_number);
         Result<List<User>> result = new Result<>(true, "查询关注成功", userService.getUserFollows(user_number));
+        return result;
+    }
+
+    @GetMapping("/getUserInfo")
+    public Result<User> getUserInfo(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String user_number = verify.getClaim("user_number").asString();
+        log.info("用户：[{}]申请获取用户信息",user_number);
+        User user = userService.getUserByUserNumber(user_number);
+        user.setPassword("*************");
+        Result<User> result = new Result<>(true, "查询用户信息成功", user);
+        return result;
+    }
+
+    /**
+     * 获取聊天对象信息,关注与粉丝
+     * @param request
+     * @return
+     */
+    @GetMapping("/getChatObject")
+    public Result<List<User>> getChatObject(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String user_number = verify.getClaim("user_number").asString();
+        log.info("用户：[{}]申请获取聊天对象信息",user_number);
+        List<User> follows = userService.getUserFollows(user_number);
+        List<User> followers = userService.getUserFollowers(user_number);
+        List<User> chatObject = new ArrayList<>();
+        chatObject.addAll(follows);
+        chatObject.addAll(followers);
+        Result<List<User>> result = new Result<>(true, "查询聊天对象信息成功", chatObject);
+        log.info("用户：[{}]获取的聊天对象信息为：{}",user_number,chatObject);
         return result;
     }
 
