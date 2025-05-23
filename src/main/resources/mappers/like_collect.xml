@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.nuist.myblog.mapper.Like_CollectMapper">
+    <insert id="like">
+        insert into like_collect(blog_id, user_number, type,created_at) values (#{blog_id}, #{user_number}, 0, #{created_at})
+    </insert>
+    <delete id="neverLike">
+        delete from like_collect where blog_id = #{blog_id} and user_number = #{user_number} and type = 0
+    </delete>
+
+
+    <select id="isBlogLike" resultType="java.lang.Integer">
+        select count(*) from like_collect where blog_id = #{blog_id} and user_number = #{user_number} and type = 0
+    </select>
+    <select id="isBlogMarked" resultType="java.lang.Integer">
+        select count(*) from like_collect where blog_id = #{blog_id} and user_number = #{user_number} and type = 1
+    </select>
+    <select id="hasLiked" resultType="java.lang.Integer">
+        select count(*) from like_collect where blog_id = #{blog_id} and user_number = #{user_number} and type = 0
+    </select>
+</mapper>

@@ -7,6 +7,15 @@
         insert into blog(blog_id,blog_title,blog_content,blog_summary,user_number,type_id,blog_status,create_time,update_time,cover_image)
         values(#{blog.blog_id},#{blog.blog_title},#{blog.blog_content},#{blog.blog_summary},#{blog.user_number},#{blog.type_id},#{blog.blog_status},#{blog.create_time},#{blog.update_time},#{blog.cover_image})
     </insert>
+    <insert id="addBlogLike">
+        update blog set `like` = `like` + 1 where blog_id = #{blog_id}
+    </insert>
+    <update id="updateBlogLike">
+        update blog set `like` = #{like} where blog_id = #{blog_id}
+    </update>
+    <update id="downBlogLike">
+        update blog set `like` = `like` - 1 where blog_id = #{blog_id}
+    </update>
 
     <select id="getBlogs" resultType="org.nuist.myblog.entity.Blog">
         select * from blog

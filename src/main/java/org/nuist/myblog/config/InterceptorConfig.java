@@ -21,6 +21,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/commonEmail")
                 .excludePathPatterns("/blog/getBlogsByUserNumber")
                 .excludePathPatterns("/blog/getHotBlogs")
+                .excludePathPatterns("/blog/getBlogInfoByBlogId")
                 .excludePathPatterns("/user/loginId");// 所有用户都放行
     }
 }

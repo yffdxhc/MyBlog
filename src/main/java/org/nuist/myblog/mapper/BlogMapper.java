@@ -27,4 +27,7 @@ public interface BlogMapper {
      * 查询所有博客 ID（用于构建 Mahout 映射）
      */
     List<String> findAllBlogIds();
+    Integer updateBlogLike(@Param("blog_id") String blog_id,  @Param("like") Integer like);
+    Integer addBlogLike(@Param("blog_id") String blog_id);
+    Integer downBlogLike(@Param("blog_id") String blog_id);
 }

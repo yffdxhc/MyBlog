@@ -195,4 +195,41 @@ public class BlogController {
         Result<List<Blog>> result = new Result<>(true, "查询热门博客成功", blogService.getHotBlogs());
         return result;
     }
+
+    @GetMapping("/getBlogInfoByBlogId")
+    public Result<Blog> getBlogInfoByBlogId(@RequestParam("blog_id") String blog_id) {
+        log.info("获取博客信息");
+        Result<Blog> result = new Result<>(true, "查询博客信息成功", blogService.getBlogById(blog_id));
+        return result;
+    }
+
+    @GetMapping("/isBlogLike")
+    public Result<Boolean> isBlogLike(HttpServletRequest request, @RequestParam("blog_id") String blog_id) {
+        String token = request.getHeader("token");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String user_number = verify.getClaim("user_number").asString();
+        log.info("用户：[{}]申请判断博客是否点赞，blog_id:{}",user_number,blog_id);
+        Result<Boolean> result = new Result<>(true, "查询成功", blogService.isBlogLike(blog_id, user_number));
+        return result;
+    }
+
+    @GetMapping("/isBlogMarked")
+    public Result<Boolean> isBlogMarked(HttpServletRequest request, @RequestParam("blog_id") String blog_id) {
+        String token = request.getHeader("token");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String user_number = verify.getClaim("user_number").asString();
+        log.info("用户：[{}]申请判断博客是否收藏，blog_id:{}",user_number,blog_id);
+        Result<Boolean> result = new Result<>(true, "查询成功", blogService.isBlogCollect(blog_id, user_number));
+        return result;
+    }
+
+    @PostMapping("/likeButton")
+    public Result<Boolean> likeButton(HttpServletRequest request, @RequestParam("blog_id") String blog_id) {
+        String token = request.getHeader("token");
+        DecodedJWT verify = JWTUtils.verify(token);
+        String user_number = verify.getClaim("user_number").asString();
+        log.info("用户：[{}]申请点赞，blog_id:{}",user_number,blog_id);
+        Result<Boolean> result = new Result<>(true, "点赞成功", blogService.likeButton(blog_id, user_number));
+        return result;
+    }
 }
